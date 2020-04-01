@@ -89,6 +89,9 @@ export default {
     valid: {
       type: Boolean,
       default: true
+    },
+    error: {
+      type: String
     }
   }
 }
