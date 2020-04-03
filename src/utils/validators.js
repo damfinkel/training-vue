@@ -1,4 +1,4 @@
-export const passwordFormat = value => {
+export const passwordFormat = (value) => {
   if (typeof value === 'undefined' || value === null || value === '') {
     return true
   }
@@ -8,7 +8,6 @@ export const passwordFormat = value => {
 export function watchFieldError (viewModel, errorTypes, errors, fieldName) {
   let error = null
   for (let i = 0; i < errorTypes.length; i++) {
-    debugger
     const errorType = errorTypes[i]
     if (!viewModel[fieldName][errorType]) {
       error = errors[fieldName][errorType]

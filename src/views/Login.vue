@@ -1,17 +1,13 @@
-
-<template>
-  <auth-container
-    :primaryAction="login"
-    :primaryTitle="primaryTitle"
-    :alternativeRoute="alternativeRoute"
-    :alternativeRouteTitle="alternativeRouteTitle"
-    :valid="!$v.$invalid"
-  >
-    <template v-slot:content>
-      <form-input name="email" title="Email" v-model="$v.email" :error="emailError" />
-      <form-input name="password" title="Password" type="password" v-model="$v.password" :error="passwordError" />
-    </template>
-  </auth-container>
+<template lang="pug">
+  auth-container(:primary-action="login" :primary-title="primaryTitle" :alternative-route="alternativeRoute" :alternative-route-title="alternativeRouteTitle" :valid="!$v.$invalid")
+    template(v-slot:content)
+      form-input(v-model="$v.email" name='email' title='Email' :error='emailError')
+      form-input(
+        v-model="$v.password"
+        name="password"
+        title="Password"
+        type="password"
+        :error='passwordError')
 </template>
 
 <script>
@@ -35,43 +31,39 @@ const ERRORS = {
 }
 
 export default {
-  name: 'login',
+  name: 'Login',
   components: {
     FormInput,
     AuthContainer
   },
-  data: () => ({
-    email: '',
-    password: '',
-    primaryTitle: 'Login',
-    alternativeRouteTitle: 'Sign Up',
-    alternativeRoute: '/signup',
-    emailError: null,
-    passwordError: null
-  }),
+  data () {
+    return {
+      email: '',
+      password: '',
+      primaryTitle: 'Login',
+      alternativeRouteTitle: 'Sign Up',
+      alternativeRoute: '/signup',
+      emailError: null,
+      passwordError: null
+    }
+  },
+  watch: {
+    email () {
+      this.emailError = watchFieldError(this.$v, ERROR_TYPES, ERRORS, 'email')
+    },
+    password () {
+      this.passwordError = watchFieldError(this.$v, ERROR_TYPES, ERRORS, 'password')
+    }
+  },
   methods: {
-    login: async function () {
+    async login () {
       const response = await AuthService.login({ email: this.email, password: this.password })
       console.log(response.data)
     }
   },
-  watch: {
-    email: function () {
-      this.emailError = watchFieldError(this.$v, ERROR_TYPES, ERRORS, 'email')
-    },
-    password: function () {
-      this.passwordError = watchFieldError(this.$v, ERROR_TYPES, ERRORS, 'password')
-    }
-  },
   validations: {
-    email: {
-      required,
-      format: email
-    },
-    password: {
-      required,
-      format: passwordFormat
-    }
+    email: { required, format: email },
+    password: { required, format: passwordFormat }
   }
 }
 </script>

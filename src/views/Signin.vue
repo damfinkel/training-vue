@@ -1,24 +1,30 @@
 <template>
   <auth-container
-    :primaryAction="signup"
-    :primaryTitle="primaryTitle"
-    :alternativeRoute="alternativeRoute"
-    :alternativeRouteTitle="alternativeRouteTitle"
+    :primary-action="signup"
+    :primary-title="primaryTitle"
+    :alternative-route="alternativeRoute"
+    :alternative-route-title="alternativeRouteTitle"
     :error="error"
     :valid="!$v.$invalid"
   >
     <template v-slot:content>
-      <form-input name="first_name" title="First Name" v-model="$v.firstName" :error="firstNameError" />
-      <form-input name="last_name" title="Last Name" v-model="$v.lastName" :error="lastNameError" />
-      <form-input name="email" title="Email" v-model="$v.email" :error="emailError"/>
-      <form-input name="password" title="Password" type="password" v-model="$v.password" :error="passwordError" />
+      <form-input v-model="$v.firstName" name='first_name' title='First Name' :error='firstNameError' />
+      <form-input v-model="$v.lastName" name='last_name' title='Last Name' :error='lastNameError' />
+      <form-input v-model="$v.email" name='email' title='Email' :error='emailError' />
+      <form-input
+        v-model="$v.password"
+        name="password"
+        title="Password"
+        type="password"
+        :error='passwordError'
+      />
     </template>
   </auth-container>
 </template>
 
 <script>
-import FormInput from '@/components/FormInput.vue'
-import AuthContainer from '@/components/AuthContainer.vue'
+import FormInput from '@/components/FormInput'
+import AuthContainer from '@/components/AuthContainer'
 import { required, email } from 'vuelidate/lib/validators'
 import { passwordFormat, REQUIRED_ERROR, watchFieldError } from '@/utils/validators'
 import { register } from '@/services/AuthService'
@@ -43,41 +49,40 @@ const ERRORS = {
 }
 
 export default {
-  name: 'signup',
-  components: {
-    FormInput,
-    AuthContainer
+  name: 'Signup',
+  components: { FormInput, AuthContainer },
+  data () {
+    return {
+      email: '',
+      password: '',
+      firstName: '',
+      lastName: '',
+      emailError: '',
+      passwordError: '',
+      firstNameError: '',
+      lastNameError: '',
+      primaryTitle: 'Sign up',
+      alternativeRouteTitle: 'Login',
+      alternativeRoute: '/login',
+      error: null
+    }
   },
-  data: () => ({
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-    emailError: '',
-    passwordError: '',
-    firstNameError: '',
-    lastNameError: '',
-    primaryTitle: 'Sign up',
-    alternativeRouteTitle: 'Login',
-    alternativeRoute: '/login',
-    error: null
-  }),
   watch: {
-    firstName: function () {
+    firstName () {
       this.firstNameError = watchFieldError(this.$v, ERROR_TYPES, ERRORS, 'firstName')
     },
-    lastName: function () {
+    lastName () {
       this.lastNameError = watchFieldError(this.$v, ERROR_TYPES, ERRORS, 'lastName')
     },
-    email: function () {
+    email () {
       this.emailError = watchFieldError(this.$v, ERROR_TYPES, ERRORS, 'email')
     },
-    password: function () {
+    password () {
       this.passwordError = watchFieldError(this.$v, ERROR_TYPES, ERRORS, 'password')
     }
   },
   methods: {
-    signup: async function (event) {
+    async signup (event) {
       const response = await register({
         email: this.email,
         password: this.password,

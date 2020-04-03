@@ -1,20 +1,28 @@
-<template>
-  <form class="auth-container">
-    <img src="../assets/logo-wolox.png" class="logo" />
-    <slot name="content"></slot>
-    <button
-      type="button"
-      class="button primary sign-up-button"
-      @click.prevent="primaryAction"
-      :disabled="!valid"
-    >{{primaryTitle}}</button>
-    <router-link type="button" class="button secondary" :to="alternativeRoute">{{alternativeRouteTitle}}</router-link>
-    <span class="request-error" :v-show="!!error">{{error}}</span>
-  </form>
+<template lang="pug">
+  form.auth-container(@submit.prevent)
+    img.logo(src='../assets/logo-wolox.png')
+    slot(name='content')
+    button.button.primary.sign-up-button(type='submit' :disabled="!valid" @click.prevent="primaryAction") {{ primaryTitle }}
+    router-link.button.secondary(type='button' :to='alternativeRoute') {{ alternativeRouteTitle }}
+    span.request-error(:v-show='!!error') {{ error }}
 </template>
 
+<script>
+export default {
+  name: 'AuthContainer',
+  props: {
+    primaryAction: { type: Function, required: true },
+    primaryTitle: { type: String, required: true },
+    alternativeRoute: { type: String, required: true },
+    alternativeRouteTitle: { type: String, required: true },
+    valid: { type: Boolean, default: true },
+    error: { type: String }
+  }
+}
+</script>
+
 <style scoped lang="scss">
-@import "../scss/application";
+@import '../scss/application';
 
 $padding-sides: 30px;
 
@@ -44,7 +52,7 @@ $padding-sides: 30px;
   position: relative;
 
   &::after {
-    content: "";
+    content: '';
     height: 1px;
     background-color: grey;
     position: absolute;
@@ -54,7 +62,7 @@ $padding-sides: 30px;
   }
 
   &:disabled {
-    background-color: #D0D0D0;
+    background-color: #d0d0d0;
   }
 }
 
@@ -64,35 +72,3 @@ $padding-sides: 30px;
   margin-top: 10px;
 }
 </style>
-
-<script>
-
-export default {
-  name: 'AuthContainer',
-  props: {
-    primaryAction: {
-      type: Function,
-      required: true
-    },
-    primaryTitle: {
-      type: String,
-      required: true
-    },
-    alternativeRoute: {
-      type: String,
-      required: true
-    },
-    alternativeRouteTitle: {
-      type: String,
-      required: true
-    },
-    valid: {
-      type: Boolean,
-      default: true
-    },
-    error: {
-      type: String
-    }
-  }
-}
-</script>
