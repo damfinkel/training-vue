@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Signin from './views/Signin.vue'
-import Login from './views/Login.vue'
-import Home from './views/Home.vue'
+const Signin = () => import('./views/Signin.vue')
+const Login = () => import('./views/Login.vue')
+const BookList = () => import('./views/BookList.vue')
 
 Vue.use(Router)
 
 const privateRoutes = [{ path: '/signup', component: Signin }, { path: '/login', component: Login }]
-const publicRoutes = [{ path: '/home', component: Home }]
+const publicRoutes = [{ path: '/home', component: BookList }, { path: '/books', component: BookList }]
 
 const routes = [
   ...privateRoutes,

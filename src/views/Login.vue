@@ -16,6 +16,7 @@ import FormInput from '@/components/FormInput.vue'
 import { required, email } from 'vuelidate/lib/validators'
 import { passwordFormat, watchFieldError, REQUIRED_ERROR } from '@/utils/validators'
 import * as AuthService from '@/services/AuthService'
+import { setAccessTokenHeader } from '@/services/api'
 
 const ERROR_TYPES = ['required', 'format']
 
@@ -60,6 +61,7 @@ export default {
       const response = await AuthService.login({ email: this.email, password: this.password })
       if (response.ok) {
         localStorage.accessToken = response.data.access_token
+        setAccessTokenHeader(response.data.access_token)
         this.$router.push('/home')
       } else {
         // Showing only the first error just for simplicity
