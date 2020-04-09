@@ -3,8 +3,7 @@
     img.book-image(:src="book.img" :alt="book.title")
     h3.book-title {{ book.title }}
     span.book-author {{ book.author }}
-
-  </template>
+</template>
 
 <script>
 export default {
