@@ -1,11 +1,27 @@
 <template lang="pug" v-if="localStorage.accessToken">
   nav.navbar-container
     img.navbar-image(src="../assets/wolox-navbar-icon.png")
-    button.logout-button(type="button" @click="logout") Logout
+    .link-container
+      button.see-cart(type="button")
+        span.cart-badge {{ 3 }}
+      button.logout-button(type="button" @click="logout") Logout
 </template>
 
+<script>
+
+export default {
+  name: 'navbar',
+  methods: {
+    logout () {
+      localStorage.removeItem('accessToken')
+      this.$router.push('/login')
+    }
+  }
+}
+</script>
+
 <style scoped lang="scss">
-@import '../scss/application';
+@import '../scss/colors';
 
 .navbar-container {
   align-items: center;
@@ -26,17 +42,29 @@
   color: black;
   font-size: 18px;
 }
-</style>
 
-<script>
-
-export default {
-  name: 'navbar',
-  methods: {
-    logout () {
-      localStorage.removeItem('accessToken')
-      this.$router.push('/login')
-    }
-  }
+.link-container {
+  display: flex;
 }
-</script>
+
+.see-cart {
+  background: url('../assets/ic_cart.png') center/contain no-repeat;
+  height: 23px;
+  margin-right: 30px;
+  position: relative;
+  width: 23px;
+}
+
+.cart-badge {
+  background-color: $blue;
+  border-radius: 50%;
+  color: white;
+  height: 15px;
+  font-size: 10px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: translate(50%, -50%);
+  width: 15px;
+}
+</style>

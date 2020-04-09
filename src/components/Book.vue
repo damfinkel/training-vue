@@ -3,6 +3,7 @@
     img.book-image(:src="book.img" :alt="book.title")
     h3.book-title {{ book.title }}
     span.book-author {{ book.author }}
+    button.add-to-cart
 </template>
 
 <script>
@@ -18,6 +19,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../scss/application.scss';
+
 .book-container {
   align-items: start;
   background-color: white;
@@ -26,6 +29,7 @@ export default {
   flex-direction: column;
   height: 315px;
   padding: 20px;
+  position: relative;
   width: 100%;
 }
 
@@ -41,6 +45,16 @@ export default {
   font-weight: 600;
   margin-bottom: 10px;
   text-align: start;
+}
+
+.add-to-cart {
+  background-color: $blue;
+  background: url('../assets/btn_add_to_cart.png') center/cover no-repeat;
+  bottom: 8px;
+  height: 32px;
+  position: absolute;
+  right: 8px;
+  width: 31px;
 }
 
 </style>
