@@ -1,6 +1,8 @@
 <template lang="pug">
   .book-list-container
-    book(v-for="book in books" :key="book.id" :book="book")
+    input.book-filter-input(placeholder="Buscá por título de libro..." v-model="filter")
+    .book-list
+      book(v-for="book in filteredBooks" :key="book.id" :book="book")
 </template>
 
 <script>
@@ -14,13 +16,19 @@ export default {
   },
   data () {
     return {
-      books: []
+      books: [],
+      filter: ''
     }
   },
   methods: {
     async fetchBooks () {
       const response = await getBooks()
       this.books = response.data
+    }
+  },
+  computed: {
+    filteredBooks () {
+      return this.books.filter(book => book.title.toLowerCase().includes(this.filter.toLowerCase()))
     }
   },
   mounted () {
@@ -31,11 +39,27 @@ export default {
 
 <style lang="scss" scoped>
 .book-list-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 30px 300px;
+}
+
+.book-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, 230px);
-  height: 100vh;
   justify-content: space-between;
-  padding: 50px 300px;
   gap: 20px 30px;
+  padding: 50px 0;
+}
+
+.book-filter-input {
+  align-self: center;
+  font-size: 20px;
+  height: 50px;
+  line-height: 20px;
+  min-height: 50px;
+  padding: 15px;
+  width: 70%
 }
 </style>
