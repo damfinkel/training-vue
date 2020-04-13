@@ -22,7 +22,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '../scss/application';
+@import '../scss/colors';
 
 $padding-sides: 30px;
 

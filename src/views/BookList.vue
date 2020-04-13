@@ -1,12 +1,12 @@
 <template lang="pug">
   .book-list-container
-    input.book-filter-input(placeholder="Buscá por título de libro..." v-model="filter")
+    input.book-filter-input(type="text" placeholder="Buscá por título de libro..." :value="filter" @input="updateFilter")
     .book-list
       book(v-for="book in filteredBooks" :key="book.id" :book="book")
 </template>
 
 <script>
-import { getBooks } from '@/services/BookService'
+import { mapActions, mapState, mapGetters } from 'vuex'
 import Book from '@/components/Book'
 
 export default {
@@ -14,22 +14,15 @@ export default {
   components: {
     Book
   },
-  data () {
-    return {
-      books: [],
-      filter: ''
-    }
-  },
   methods: {
-    async fetchBooks () {
-      const response = await getBooks()
-      this.books = response.data
+    ...mapActions({ fetchBooks: 'books/getBooks', setFilter: 'books/setFilter' }),
+    updateFilter (e) {
+      this.setFilter(e.target.value)
     }
   },
   computed: {
-    filteredBooks () {
-      return this.books.filter(book => book.title.toLowerCase().includes(this.filter.toLowerCase()))
-    }
+    ...mapState({ bookList: state => state.books.bookList, filter: state => state.books.filter }),
+    ...mapGetters({ filteredBooks: 'books/getFilteredBooks' })
   },
   mounted () {
     this.fetchBooks()
