@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Signin from './views/Signin.vue'
 import Login from './views/Login.vue'
+import Home from './views/Home.vue'
 
 Vue.use(Router)
 
@@ -16,8 +17,8 @@ export default new Router({
       component: Login
     },
     {
-      path: '/',
-      redirect: '/login'
+      path: '/home',
+      component: Home
     }
   ],
   mode: 'history'

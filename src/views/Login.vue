@@ -58,7 +58,13 @@ export default {
   methods: {
     async login () {
       const response = await AuthService.login({ email: this.email, password: this.password })
-      console.log(response.data)
+      if (response.ok) {
+        localStorage.accessToken = response.data.access_token
+        this.$router.push('/home')
+      } else {
+        // Showing only the first error just for simplicity
+        this.error = response.data.error[0]
+      }
     }
   },
   validations: {
