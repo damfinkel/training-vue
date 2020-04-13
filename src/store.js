@@ -18,7 +18,11 @@ const books = {
   mutations: {
     setBooks: (state, payload) => (state.bookList = payload.books),
     setFilter: (state, payload) => (state.filter = payload),
-    addBookToCart: (state, payload) => (state.cart = [...state.cart, payload])
+    addBookToCart: (state, payload) => (state.cart = [...state.cart, payload]),
+    removeBookFromCart: (state, payload) => {
+      const bookIndex = state.cart.findIndex(book => book.id === payload.id)
+      state.cart = [...state.cart.slice(0, bookIndex), ...state.cart.slice(bookIndex + 1)]
+    }
   },
   actions: {
     getBooks: async ({ commit }) => {
@@ -32,6 +36,9 @@ const books = {
     },
     addBook: ({ commit }, book) => {
       commit('addBookToCart', book)
+    },
+    removeBook: ({ commit }, book) => {
+      commit('removeBookFromCart', book)
     }
   }
 }

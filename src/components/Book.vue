@@ -3,11 +3,11 @@
     img.book-image(:src="book.img" :alt="book.title")
     h3.book-title {{ book.title }}
     span.book-author {{ book.author }}
-    button.add-to-cart(@click="addBook")
+    button.add-to-cart(v-show="!cart.some(cartBook => book.id === cartBook.id)" @click="addBook")
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'Book',
@@ -17,7 +17,9 @@ export default {
       required: true
     }
   },
-
+  computed: {
+    ...mapState({ cart: state => state.books.cart })
+  },
   methods: {
     ...mapActions({ addBookToCart: 'books/addBook' }),
     addBook () {
