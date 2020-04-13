@@ -6,20 +6,33 @@ import Home from './views/Home.vue'
 
 Vue.use(Router)
 
-export default new Router({
-  routes: [
-    {
-      path: '/signup',
-      component: Signin
-    },
-    {
-      path: '/login',
-      component: Login
-    },
-    {
-      path: '/home',
-      component: Home
-    }
-  ],
-  mode: 'history'
+const routes = [
+  {
+    path: '/signup',
+    component: Signin,
+    meta: { private: false }
+  },
+  {
+    path: '/login',
+    component: Login,
+    meta: { private: false }
+  },
+  {
+    path: '/home',
+    component: Home,
+    meta: { private: true }
+  }
+]
+
+const router = new Router({ routes: routes, mode: 'history' })
+
+const getIsAuthenticated = () => !!localStorage.accessToken
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = getIsAuthenticated()
+  if (to.meta.private && !isAuthenticated) next({ path: '/login' })
+  if (!to.meta.private && isAuthenticated) next({ path: '/home' })
+  else next()
 })
+
+export default router
