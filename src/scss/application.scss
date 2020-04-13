@@ -1,0 +1,9 @@
+@import '~wolox-equalizer/equalizer';
+@import './colors';
+@import './buttons';
+
+a.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
