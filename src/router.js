@@ -7,7 +7,7 @@ const BookList = () => import('./views/BookList.vue')
 Vue.use(Router)
 
 const privateRoutes = [{ path: '/signup', component: Signin }, { path: '/login', component: Login }]
-const publicRoutes = [{ path: '/home', component: BookList }, { path: '/books', component: BookList }]
+const publicRoutes = [{ path: '/home', component: BookList }, { path: '/', component: BookList }]
 
 const routes = [
   ...privateRoutes,

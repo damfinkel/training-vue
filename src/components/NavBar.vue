@@ -3,11 +3,12 @@
     img.navbar-image(src="../assets/wolox-navbar-icon.png")
     .link-container
       button.see-cart(type="button")
-        span.cart-badge {{ 3 }}
+        span.cart-badge {{ cartAmount }}
       button.logout-button(type="button" @click="logout") Logout
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'navbar',
@@ -16,6 +17,9 @@ export default {
       localStorage.removeItem('accessToken')
       this.$router.push('/login')
     }
+  },
+  computed: {
+    ...mapGetters({ cartAmount: 'books/getCartAmount' })
   }
 }
 </script>

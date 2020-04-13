@@ -3,16 +3,25 @@
     img.book-image(:src="book.img" :alt="book.title")
     h3.book-title {{ book.title }}
     span.book-author {{ book.author }}
-    button.add-to-cart
+    button.add-to-cart(@click="addBook")
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'Book',
   props: {
     book: {
       type: Object,
       required: true
+    }
+  },
+
+  methods: {
+    ...mapActions({ addBookToCart: 'books/addBook' }),
+    addBook () {
+      this.addBookToCart(this.book)
     }
   }
 }

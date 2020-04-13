@@ -8,16 +8,17 @@ const books = {
   namespaced: true,
   state: {
     bookList: [],
-    filter: ''
+    filter: '',
+    cart: []
   },
   getters: {
-    getFilteredBooks: (state) => {
-      return state.bookList.filter(book => book.title.toLowerCase().includes(state.filter.toLowerCase()))
-    }
+    getFilteredBooks: (state) => state.bookList.filter(book => book.title.toLowerCase().includes(state.filter.toLowerCase())),
+    getCartAmount: (state) => state.cart.length
   },
   mutations: {
     setBooks: (state, payload) => (state.bookList = payload.books),
-    setFilter: (state, payload) => (state.filter = payload)
+    setFilter: (state, payload) => (state.filter = payload),
+    addBookToCart: (state, payload) => (state.cart = [...state.cart, payload])
   },
   actions: {
     getBooks: async ({ commit }) => {
@@ -28,6 +29,9 @@ const books = {
     },
     setFilter ({ commit }, filter) {
       commit('setFilter', filter)
+    },
+    addBook: ({ commit }, book) => {
+      commit('addBookToCart', book)
     }
   }
 }
