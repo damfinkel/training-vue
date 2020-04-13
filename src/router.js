@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Signin from './views/Signin.vue'
-import Login from './views/Login.vue'
-import Home from './views/Home.vue'
+const Signin = () => import('./views/Signin.vue')
+const Login = () => import('./views/Login.vue')
+const BookList = () => import('./views/BookList.vue')
 
 Vue.use(Router)
 
@@ -18,8 +18,8 @@ const routes = [
     meta: { private: false }
   },
   {
-    path: '/home',
-    component: Home,
+    path: '/books',
+    component: BookList,
     meta: { private: true }
   }
 ]
@@ -31,7 +31,7 @@ const getIsAuthenticated = () => !!localStorage.accessToken
 router.beforeEach((to, from, next) => {
   const isAuthenticated = getIsAuthenticated()
   if (to.meta.private && !isAuthenticated) next({ path: '/login' })
-  if (!to.meta.private && isAuthenticated) next({ path: '/home' })
+  if (!to.meta.private && isAuthenticated) next({ path: '/books' })
   else next()
 })
 

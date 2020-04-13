@@ -1,4 +1,4 @@
-<template lang="pug">
+<template lang="pug" v-if="localStorage.accessToken">
   nav.navbar-container
     img.navbar-image(src="../assets/wolox-navbar-icon.png")
     button.logout-button(type="button" @click="logout") Logout
