@@ -1,11 +1,11 @@
 <template lang="pug">
   auth-container(:primary-action="login" :primary-title="primaryTitle" :alternative-route="alternativeRoute" :alternative-route-title="alternativeRouteTitle" :valid="!$v.$invalid")
     template(v-slot:content)
-      form-input(v-model="$v.email" name='email' title='Email' :error='emailError')
+      form-input(v-model="$v.email" name='email' :title="$t('login.email')" :error='emailError')
       form-input(
         v-model="$v.password"
         name="password"
-        title="Password"
+        :title="$t('login.password')"
         type="password"
         :error='passwordError')
 </template>
@@ -41,8 +41,8 @@ export default {
     return {
       email: '',
       password: '',
-      primaryTitle: 'Login',
-      alternativeRouteTitle: 'Sign Up',
+      primaryTitle: this.$t('login.login'),
+      alternativeRouteTitle: this.$t('login.signup'),
       alternativeRoute: '/signup',
       emailError: null,
       passwordError: null
